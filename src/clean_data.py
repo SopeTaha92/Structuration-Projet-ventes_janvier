@@ -13,7 +13,7 @@ def cleanning_data(file_brute):
 
     file = file_brute.copy()
     file = file.dropna()
-    file = file.dropduplicate(kepp='first')
+    file = file.drop_duplicates(keep='first')
 
 
     column_text = ['Produit', 'Region']
@@ -28,7 +28,7 @@ def cleanning_data(file_brute):
     #file["Heure_d'achat"] = pd.to_timedelta(file["Heure_d'achat"], unit='s')
 
 
-    #file.to_csv(file_path)
+    file.to_csv(file_path)
 
     return file
 
