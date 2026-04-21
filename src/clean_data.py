@@ -2,33 +2,36 @@
 
 
 import pandas as pd
-from pathlib import Path
-from datetime import datetime
+from loguru import logger 
+from config import CLEAN_DATA_FILE
 
-def cleanning_data(file_brute):
-    path = Path("data/processed")
-    path.mkdir(parents=True, exist_ok=True)
-    today = datetime.now().strftime('%d-%m-%Y_%H-%M')
-    file_path = path / f"clean_data_ventes_janvier_{today}.csv"
+def cleanning_data(df_brute : pd.DataFrame, file : str = CLEAN_DATA_FILE) -> pd.DataFrame:
+    """
+    Cette fonction se charge du néttoye des données brutes
+    """
+    logger.info("Début du néttoyage des données brutes reçus")
+    df_clean = df_brute.copy()
+    logger.info('Copie des données brutes reçu effectué')
+    df_clean = df_clean.dropna()
+    df_clean = df_clean.drop_duplicates(keep='first')
 
-    file = file_brute.copy()
-    file = file.dropna()
-    file = file.drop_duplicates(keep='first')
 
+    column_text = ['produit', 'region']
+    column_int = ['quantité', 'prix_unitaire', 'coût_unitaire']
 
-    column_text = ['Produit', 'Region']
-    column_int = ['Quantité', 'Prix_Unitaire', 'Coût_Unitaire']
+    df_clean[column_text] = df_clean[column_text].apply(lambda x: x.str.strip().str.title())
 
-    file[column_text] = file[column_text].apply(lambda x: x.str.strip().str.title())
-    file[column_int] = file[column_int].astype(int)
-    file['Date'] = pd.to_datetime(file['Date'], format='mixed', dayfirst=True, errors='coerce')
-    time_delta = pd.to_timedelta(file["Heure_d'achat"], unit= 's')
-    file["Heure_d'achat"] = (pd.to_datetime('2026-01-01') + time_delta).dt.time
+    df_clean[column_int] = df_clean[column_int].astype(int)
+
+    df_clean['date'] = pd.to_datetime(df_clean['date'], format='mixed', dayfirst=True, errors='coerce')
+    time_delta = pd.to_timedelta(pd.to_numeric(df_clean["heure_achat"], errors='coerce'), unit= 's')
+    df_clean["heure_achat"] = (pd.to_datetime('2026-01-01') + time_delta).dt.time
     # Dans transform.py
     #file["Heure_d'achat"] = pd.to_timedelta(file["Heure_d'achat"], unit='s')
 
 
-    file.to_csv(file_path)
+    df_clean.to_csv(file)
+    logger.info(f"Création du fichier csv des données propres avec succée : {file.name}")
 
-    return file
+    return df_clean
 

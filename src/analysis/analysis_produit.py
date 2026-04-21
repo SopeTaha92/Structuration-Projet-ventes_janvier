@@ -1,15 +1,21 @@
 
 
 
+from loguru import logger
 import pandas as pd 
 
 
-def analysis_by_product(df):
+def analysis_by_product(df_complet : pd.DataFrame) -> pd.DataFrame:
+    """
+    Cette fonction se charge de faire des aggégations par produits
+    """
+    logger.info("Début des aggrégations par produits")
+
     df_group_produit = (
-        df.groupby('Produit')
+        df_complet.groupby('produit')
         .agg(
             {
-                'Quantité' : 'sum',
+                'quantité' : 'sum',
                 'Revenue' : 'sum',
                 'Cost' : 'sum',
                 'Profit'  : 'sum'
@@ -20,5 +26,6 @@ def analysis_by_product(df):
     )
     df_group_produit['Marge %'] = (df_group_produit['Profit'] / df_group_produit['Revenue']).round(2)
 
+    logger.info("Aggrégations par produits éffectué avec succées")
 
     return df_group_produit

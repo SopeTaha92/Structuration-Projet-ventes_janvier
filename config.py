@@ -1,0 +1,46 @@
+
+
+
+from dotenv import dotenv_values
+from pathlib import Path
+from datetime import datetime
+
+
+TODAY = datetime.now().strftime('%d-%m-%Y_%H-%M')
+MAX_RETRIES = 3
+DELAY = 1
+
+
+LOG_DIR = Path("log")
+LOG_DIR.mkdir(parents=True, exist_ok=True)
+LOG_FILE = LOG_DIR / f"logging_file_{TODAY}.log"
+
+
+
+
+env = dotenv_values(".env")
+
+DB_CONFIG = {
+    'host' : env['DB_HOST'],
+    'port' : int(env['DB_PORT']),
+    'dbname' : env['DB_NAME'],
+    'user' : env['DB_USER'],
+    'password' : env['DB_PASSWORD']
+}
+
+TABLE_NAME = env['DB_TABLE']
+
+
+BRUTE_DATA = Path("data/raw")
+BRUTE_DATA.mkdir(parents=True, exist_ok=True)
+BRUTE_DATA_FILE = BRUTE_DATA / f"brute_data_ventes_janvier.csv"
+
+
+CLEAN_DATA = Path("data/processed")
+CLEAN_DATA.mkdir(parents=True, exist_ok=True)
+CLEAN_DATA_FILE = CLEAN_DATA / f"clean_data_ventes_janvier_{TODAY}.csv"
+
+
+EXCEL_DIR_PATH = Path('rapport_excel')
+EXCEL_DIR_PATH.mkdir(parents=True, exist_ok=True)
+EXCEL_FILE = EXCEL_DIR_PATH / f"rapport_excel_ventes_janvier_{TODAY}.xlsx"

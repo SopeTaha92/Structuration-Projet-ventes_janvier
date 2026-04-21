@@ -2,18 +2,20 @@
 
 
 import pandas as pd 
-from pathlib import Path
-from datetime import datetime
-
-dir_path = Path('rapport_excel')
-dir_path.mkdir(parents=True, exist_ok=True)
-today = datetime.now().strftime('%d-%m-%Y_%H-%M')
-file = dir_path / f"rapport_excel_ventes_janvier_{today}.xlsx"
+from loguru import logger
+from typing import Dict
+from config import EXCEL_FILE
 
 
 
-def generating_excel_rapport(onglets):
+
+def generating_excel_rapport(onglets : Dict[str, pd.DataFrame], file : str = EXCEL_FILE):
+    """
+    Cette fonction se charge de la génération du rapport sur un fichier Excel multi-onglets
+    """
+    logger.info("Lancement de la fonction de génération du rapport")
     with pd.ExcelWriter(file, engine='xlsxwriter') as writer:
+        logger.info("Création du contexte manager et création du fichier Excel")
         workbook = writer.book
         base = {
         'align' : 'center',
@@ -37,76 +39,84 @@ def generating_excel_rapport(onglets):
         orange_format = workbook.add_format({**base, 'bg_color' : '#FFEB9C'})
         green_format = workbook.add_format({**base, 'bg_color' : '#13FF3A'})
         for name, data in onglets.items():
+            logger.info(f"Création de la feuille {name}")
             data.to_excel(writer, sheet_name=name, index=False)
             worksheet = writer.sheets[name]
+
             for column_numb, value in enumerate(data.columns):
                 worksheet.write(0, column_numb, value, header_format)
+            logger.info(f"Application de la mise en forme du header pour la feuille {name}")
+
             worksheet.autofilter(0, 0, len(data), len(data.columns) - 1)
+            logger.info(f"Application de l'auto filtre sur la feuille {name}")
+
             worksheet.freeze_panes(1, 0)
+            logger.info(f"Fixation du header pour la feuille {name}")
+
             column_money = ['Revenue', 'Cost', 'Profit', 'Prix_Unitaire', 'Coût_Unitaire']
             column_marge = ['Marge', 'Marge %', 'Marge_totaux']
-            for i, column in enumerate(data.columns):
-                column_width = max(data[column].astype(str).str.len().max() , len(column)) + 3
-                if column in column_marge:
-                    worksheet.set_column(i, i, column_width, marge_format)
-                elif column in column_money:
-                    worksheet.set_column(i, i, column_width, money_format)
-                #elif column == "Heure_d'achat":
-                    #worksheet.set_column(i, i, column_width, time_format)
-                else:
-                    worksheet.set_column(i, i, column_width, base_format)
-
-
-                if 'Profit' in data.columns:
-                    profit_column = data.columns.get_loc('Profit')
-                    worksheet.conditional_format(1, profit_column, len(data), profit_column, {
-                        'type' : 'cell',
-                        'criteria' : '<',
-                        'value' : 0,
-                        'format' : red_format
-                    })
-
-                    worksheet.conditional_format(1, profit_column, len(data), profit_column, {
-                        'type' : 'cell',
-                        'criteria' : 'between',
-                        'minimum' : 0,
-                        'maximum' : 500,
-                        'format' : orange_format
-                    })
-
-                if 'Marge' in data.columns:
-                    marge_column = data.columns.get_loc('Marge')
-                    worksheet.conditional_format(1, marge_column, len(data), marge_column, {
-                    'type' : 'cell',
-                    'criteria' : '>',
-                    'value' : 0.25,
-                    'format' : green_format
-                    })
-                
-                if 'Marge %' in data.columns:
-                    marge_percent_column = data.columns.get_loc('Marge %')
-                    worksheet.conditional_format(1, marge_percent_column, len(data), marge_percent_column, {
-                        'type' : 'cell',
-                        'criteria' : '>',
-                        'value' : 0.25,
-                        'format' : green_format
-                    })
-                if 'Marge_totaux' in data.columns:
-                    marge_totaux_column = data.columns.get_loc('Marge_totaux')
-                    worksheet.conditional_format(1, marge_totaux_column, len(data), marge_totaux_column, {
-                        'type' : 'cell',
-                        'criteria' : '>',
-                        'value' : 0.25,
-                        'format' : green_format
-                    })
-                if name == 'Données Néttoyées':
-                    if column == "Heure_d'achat":
+            if name != 'Données Brutes':
+                for i, column in enumerate(data.columns):
+                    column_width = max(data[column].astype(str).str.len().max() , len(column)) + 3
+                    logger.info("Calcule de la largeur des cellules automatquement")
+                    logger.info(f"Application des divers formatages pour la feuille {name}")
+                    if column in column_marge:
+                        worksheet.set_column(i, i, column_width, marge_format)
+                    elif column in column_money:
+                        worksheet.set_column(i, i, column_width, money_format)
+                    elif column == "Heure_d'achat":
                         worksheet.set_column(i, i, column_width, time_format)
+                    else:
+                        worksheet.set_column(i, i, column_width, base_format)
+
+
+                    if 'Profit' in data.columns:
+                        profit_column = data.columns.get_loc('Profit')
+                        worksheet.conditional_format(1, profit_column, len(data), profit_column, {
+                            'type' : 'cell',
+                            'criteria' : '<',
+                            'value' : 0,
+                            'format' : red_format
+                        })
+
+                        worksheet.conditional_format(1, profit_column, len(data), profit_column, {
+                            'type' : 'cell',
+                            'criteria' : 'between',
+                            'minimum' : 0,
+                            'maximum' : 500,
+                            'format' : orange_format
+                        })
+
+                    if 'Marge' in data.columns:
+                        marge_column = data.columns.get_loc('Marge')
+                        worksheet.conditional_format(1, marge_column, len(data), marge_column, {
+                        'type' : 'cell',
+                        'criteria' : '>',
+                        'value' : 0.25,
+                        'format' : green_format
+                        })
+                    
+                    if 'Marge %' in data.columns:
+                        marge_percent_column = data.columns.get_loc('Marge %')
+                        worksheet.conditional_format(1, marge_percent_column, len(data), marge_percent_column, {
+                            'type' : 'cell',
+                            'criteria' : '>',
+                            'value' : 0.25,
+                            'format' : green_format
+                        })
+                    if 'Marge_totaux' in data.columns:
+                        marge_totaux_column = data.columns.get_loc('Marge_totaux')
+                        worksheet.conditional_format(1, marge_totaux_column, len(data), marge_totaux_column, {
+                            'type' : 'cell',
+                            'criteria' : '>',
+                            'value' : 0.25,
+                            'format' : green_format
+                        })
               
                 if name == 'Données Par Produit':
                     chart_col = workbook.add_chart({'type' : 'column'})
                     chart_line = workbook.add_chart({'type' : 'line'})
-                    produit_column = data.columns.get_loc('Produit')
+                    produit_column = data.columns.get_loc('produit')
                     revenue_column = data.columns.get_loc('Revenue')
             
                     chart_col.add_series(
@@ -130,7 +140,7 @@ def generating_excel_rapport(onglets):
                 if name == 'Données Par Région':
                     chart_col = workbook.add_chart({'type' : 'column'})
                     chart_line = workbook.add_chart({'type' : 'line'})
-                    region_column = data.columns.get_loc('Region')
+                    region_column = data.columns.get_loc('region')
                     marge_percent_column = data.columns.get_loc('Marge %')
                     profit_column = data.columns.get_loc('Profit')
             
@@ -152,7 +162,7 @@ def generating_excel_rapport(onglets):
                     )
                     chart_col.combine(chart_line)
                     worksheet.insert_chart(1, data.shape[1] + 1, chart_col)
-
+            
 
 
 

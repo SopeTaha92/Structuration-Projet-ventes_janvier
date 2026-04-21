@@ -7,4 +7,5 @@ __pycache__/        # Dossiers de cache
 .env                # TES MOTS DE PASSE (crucial pour PostgreSQL plus tard)
 outputs/            # Tes rapports Excel générés
 logs/*.log          # Tes fichiers de logs locaux
-rapport_excel/
+rapport_excel/*.xlsx
+tests/*.csv
