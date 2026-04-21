@@ -10,10 +10,10 @@ import time
 import pandas as pd
 import psycopg2
 from loguru import logger
-from config import DB_CONFIG, TABLE_NAME, MAX_RETRIES, DELAY, CLEAN_DATA_FILE
+from config import DB_CONFIG, TABLE_NAME, MAX_RETRIES, DELAY, BRUTE_DATA_FILE
 
 
-def extracting_data(max_retries : int = MAX_RETRIES, delay : int = DELAY, file : str = CLEAN_DATA_FILE) -> pd.DataFrame:
+def extracting_data(max_retries : int = MAX_RETRIES, delay : int = DELAY, file : str = BRUTE_DATA_FILE) -> pd.DataFrame:
     """
     Cette fonction se charge d'extraire les données brutes depuis la base de donnée
     """

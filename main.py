@@ -19,7 +19,7 @@ analyse_jours = analysis_by_days(complet_data)
 
 onglets = {
     'Données Brutes' : df,
-    'Données Néttoyées' : clean_data,
+    'Données Néttoyées' : complet_data,
     'Données Par Produit' : analyse_produit,
     'Données Par Région' : analyse_region,
     'Données Par Jour' : analyse_jours

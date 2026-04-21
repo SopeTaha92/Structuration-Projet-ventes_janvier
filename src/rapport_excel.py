@@ -4,7 +4,7 @@
 import pandas as pd 
 from loguru import logger
 from typing import Dict
-from config import EXCEL_FILE
+from config import EXCEL_FILE, EXCEL_COLOR, EXCEL_FORMATTING
 
 
 
@@ -17,6 +17,10 @@ def generating_excel_rapport(onglets : Dict[str, pd.DataFrame], file : str = EXC
     with pd.ExcelWriter(file, engine='xlsxwriter') as writer:
         logger.info("Création du contexte manager et création du fichier Excel")
         workbook = writer.book
+        header_color = EXCEL_COLOR['bg_header']
+        red_color = EXCEL_COLOR['red_color']
+        orange_color = EXCEL_COLOR['orange_color']
+        green_color = EXCEL_COLOR['green_color']
         base = {
         'align' : 'center',
         'valign' : 'center',
@@ -26,18 +30,20 @@ def generating_excel_rapport(onglets : Dict[str, pd.DataFrame], file : str = EXC
         header_format = workbook.add_format(
             {
                 **base,
-                'bg_color' : '#4F81BD',
+                'bg_color' : header_color,
                 'font_color' : 'white',
                 'bold' : True,
                 'italic' : True
             }
         )
+
         money_format = workbook.add_format({**base, 'num_format' : '#,##0 €'})
         marge_format = workbook.add_format({**base, 'num_format' : '0 %'})
         time_format = workbook.add_format({**base, 'num_format' : 'hh"H":mm"M":ss"S"'})
-        red_format = workbook.add_format({**base, 'bg_color' : '#FFC7CE'})
-        orange_format = workbook.add_format({**base, 'bg_color' : '#FFEB9C'})
-        green_format = workbook.add_format({**base, 'bg_color' : '#13FF3A'})
+        red_format = workbook.add_format({**base, 'bg_color' : red_color})
+        orange_format = workbook.add_format({**base, 'bg_color' : orange_color})
+        green_format = workbook.add_format({**base, 'bg_color' : green_color})
+
         for name, data in onglets.items():
             logger.info(f"Création de la feuille {name}")
             data.to_excel(writer, sheet_name=name, index=False)
@@ -69,55 +75,43 @@ def generating_excel_rapport(onglets : Dict[str, pd.DataFrame], file : str = EXC
                     else:
                         worksheet.set_column(i, i, column_width, base_format)
 
+                sheets = ['Profit', 'Marge', 'Marge %', 'Marge_totaux']
+                for sheet in sheets:
+                    if sheet in data.columns:
+                        sheet_column = data.columns.get_loc(sheet)
+                        seuil = EXCEL_FORMATTING[sheet]
+                        if 'red_value' in seuil:
+                            worksheet.conditional_format(1, sheet_column, len(data), sheet_column, {
+                                'type' : 'cell',
+                                'criteria' : '<',
+                                'value' : seuil['red_value'],
+                                'format' : red_format
+                            })
+                        if 'min_value' in seuil and 'max_value' in seuil:
+                            worksheet.conditional_format(1, sheet_column, len(data), sheet_column, {
+                                'type' : 'cell',
+                                'criteria' : 'between',
+                                'minimum' : seuil['min_value'],
+                                'maximum' : seuil['max_value'],
+                                'format' : orange_format
+                            })
+                        
+                        if 'green_value' in seuil:
+                            worksheet.conditional_format(1, sheet_column, len(data), sheet_column, {
+                                'type' : 'cell',
+                                'criteria' : '>',
+                                'value' : seuil['green_value'],
+                                'format' : green_format
+                            })
 
-                    if 'Profit' in data.columns:
-                        profit_column = data.columns.get_loc('Profit')
-                        worksheet.conditional_format(1, profit_column, len(data), profit_column, {
-                            'type' : 'cell',
-                            'criteria' : '<',
-                            'value' : 0,
-                            'format' : red_format
-                        })
-
-                        worksheet.conditional_format(1, profit_column, len(data), profit_column, {
-                            'type' : 'cell',
-                            'criteria' : 'between',
-                            'minimum' : 0,
-                            'maximum' : 500,
-                            'format' : orange_format
-                        })
-
-                    if 'Marge' in data.columns:
-                        marge_column = data.columns.get_loc('Marge')
-                        worksheet.conditional_format(1, marge_column, len(data), marge_column, {
-                        'type' : 'cell',
-                        'criteria' : '>',
-                        'value' : 0.25,
-                        'format' : green_format
-                        })
                     
-                    if 'Marge %' in data.columns:
-                        marge_percent_column = data.columns.get_loc('Marge %')
-                        worksheet.conditional_format(1, marge_percent_column, len(data), marge_percent_column, {
-                            'type' : 'cell',
-                            'criteria' : '>',
-                            'value' : 0.25,
-                            'format' : green_format
-                        })
-                    if 'Marge_totaux' in data.columns:
-                        marge_totaux_column = data.columns.get_loc('Marge_totaux')
-                        worksheet.conditional_format(1, marge_totaux_column, len(data), marge_totaux_column, {
-                            'type' : 'cell',
-                            'criteria' : '>',
-                            'value' : 0.25,
-                            'format' : green_format
-                        })
               
                 if name == 'Données Par Produit':
                     chart_col = workbook.add_chart({'type' : 'column'})
                     chart_line = workbook.add_chart({'type' : 'line'})
                     produit_column = data.columns.get_loc('produit')
                     revenue_column = data.columns.get_loc('Revenue')
+                    profit_column = data.columns.get_loc('Profit')
             
                     chart_col.add_series(
                         {
@@ -163,10 +157,9 @@ def generating_excel_rapport(onglets : Dict[str, pd.DataFrame], file : str = EXC
                     chart_col.combine(chart_line)
                     worksheet.insert_chart(1, data.shape[1] + 1, chart_col)
             
+    logger.success(f"Fichier de rapport Excel crée avec succée à : {file}")
 
 
 
 
 
-
-    print(f"Fichier crée avec succée à : {file}")

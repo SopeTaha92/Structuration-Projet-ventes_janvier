@@ -44,3 +44,34 @@ CLEAN_DATA_FILE = CLEAN_DATA / f"clean_data_ventes_janvier_{TODAY}.csv"
 EXCEL_DIR_PATH = Path('rapport_excel')
 EXCEL_DIR_PATH.mkdir(parents=True, exist_ok=True)
 EXCEL_FILE = EXCEL_DIR_PATH / f"rapport_excel_ventes_janvier_{TODAY}.xlsx"
+
+
+CSV_TEST = "tests/out_put.csv"
+
+
+EXCEL_COLOR = {
+    'bg_header' : '#4F81BD',
+    'red_color' : '#FFC7CE',
+    'orange_color' : '#FFEB9C',
+    'green_color' : '#13FF3A'
+}
+
+EXCEL_FORMATTING = {
+    'Profit' : {
+        'min_value' : 0,
+        'max_value' : 500,
+        'red_value' : 0
+    },
+
+    'Marge' : {
+        'green_value' : 0.25
+    },
+
+    'Marge %' : {
+        'green_value' : 0.25
+    },
+
+    'Marge_totaux' : {
+        'green_value' : 0.25
+    },
+}
