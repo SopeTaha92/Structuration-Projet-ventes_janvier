@@ -74,12 +74,12 @@ Toute la configuration est centralisée dans `config.py`. Les credentials Postgr
 
 **`.env.example`** (à copier en `.env` et remplir) :
 ```
-DB_HOST = localhost
-DB_POR T =5432
-DB_NAME = db_ventes_janvier
-DB_USER = votre_user
-DB_PASSWORD = votre_mot_de_passe
-DB_TABLE= votre_table
+DB_HOST=localhost
+DB_PORT=5432
+DB_NAME=db_ventes_janvier
+DB_USER=votre_user
+DB_PASSWORD=votre_mot_de_passe
+DB_TABLE=ventes_janvier
 ```
 
 **`config.py`** :
@@ -110,11 +110,11 @@ extract.py (retry + psycopg2)
         │
         ▼
 [ Data Cleaning ]
-clean.py (format, types, valeurs invalides)
+clean_data.py (format, types, valeurs invalides, heures d'achat)
         │
         ▼
 [ Feature Engineering ]
-features.py (jour_semaine, Revenue, Cost, Profit, Marge)
+features.py (jour_semaine FR, Revenue, Cost, Profit, Marge)
         │
         ▼
 [ Business Analysis ]
@@ -122,11 +122,11 @@ analysis/ (Produit, Région, Jour)
         │
         ▼
 [ Reporting Layer ]
-report.py (Excel automatisé + graphiques)
+rapport_excel.py (Excel automatisé + graphiques)
         │
         ▼
 [ Decision Support ]
-Rapport RH exploitable par la direction
+Rapport exploitable par la direction
 ```
 
 ---
@@ -137,26 +137,26 @@ Rapport RH exploitable par la direction
 |---|---|---|
 | Données Brutes | Données extraites de PostgreSQL | — |
 | Données Nettoyées | Données après nettoyage + features | Mise en forme conditionnelle (Profit, Marge) |
-| Données Par Produit | Agrégations par produit | Graphique combiné colonne + ligne |
-| Données Par Région | Agrégations par région | Graphique combiné colonne + ligne (axe secondaire) |
-| Données Par Jour | Performances par jour de la semaine | — |
+| Données Par Produit | Agrégations par produit | Graphique combiné colonne (Revenue) + ligne (Profit) sur axe secondaire |
+| Données Par Région | Agrégations par région | Graphique camembert — répartition du Profit par région |
+| Données Par Jour | Performances par jour de la semaine | Graphique combiné colonne (Profit) + ligne (Quantité) sur axe secondaire |
+
+> 💡 **Insight métier** : La visualisation met en évidence la relation entre profit et volume de ventes selon les jours, permettant d'identifier les jours à forte performance commerciale.
 
 ---
 
 ## 📸 Aperçu du Rapport
 
-![Données Propres](images/Rapport_Excel/Capture%20d’écran%202026-04-22%20223741.png)
-![Données Par Jour](images/Rapport_Excel/jour.png)
+![Données Propres](images/Rapport_Excel/Capture%20d'écran%202026-04-22%20223741.png)
 ![Données Par Produit](images/Rapport_Excel/produit.png)
 ![Données Par Région](images/Rapport_Excel/region.png)
+![Données Par Jour](images/Rapport_Excel/jour.png)
 
 ---
+
 ## 🏗️ Diagramme d'Architecture
 
-
 ![Architecture](images/Diagramme_Architecture/ChatGPT%20Image%2021%20avr.%202026,%2018_15_29.png)
-
-
 
 ---
 
