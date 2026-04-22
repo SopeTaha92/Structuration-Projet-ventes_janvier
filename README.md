@@ -7,11 +7,26 @@
 ![python-dotenv](https://img.shields.io/badge/python--dotenv-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black)
 ![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
 
-# 📊 Pipeline ETL — Analyse des Ventes Janvier 2026
+# 📊 End-to-End Sales Analytics Pipeline
+### PostgreSQL → Python → Excel Dashboard
 
-Pipeline **ETL (Extract, Transform, Load)** robuste et modulaire pour l'analyse des ventes mensuelles. Il transforme des données brutes de ventes (produits, régions, heures d'achat) en rapports Excel décisionnels automatisés avec graphiques et mise en forme conditionnelle.
+---
 
-**Fonctionnalité clé** : Extraction depuis **PostgreSQL** (via `psycopg2`) avec mécanisme de retry exponentiel, nettoyage avancé, feature engineering, 3 axes d'analyse métier et génération automatisée de tableaux de bord Excel professionnels.
+## 🎯 Objectif Métier
+
+Ce projet vise à analyser les performances commerciales mensuelles afin de :
+
+- Identifier les produits les plus rentables
+- Détecter les régions sous-performantes
+- Analyser les variations de performance selon les jours de la semaine
+
+👉 Objectif final : **aider à la prise de décision commerciale basée sur la donnée**
+
+---
+
+## 🚀 Overview
+
+Pipeline **ETL (Extract, Transform, Load)** robuste et modulaire transformant des données brutes stockées dans **PostgreSQL** en rapports Excel automatisés et décisionnels — avec graphiques combinés, mise en forme conditionnelle et insights métier actionnables.
 
 ---
 
@@ -71,6 +86,38 @@ Structuration-Projet-ventes_janvier/
 
 ---
 
+## ⚙️ Pipeline ETL — Flux de Données
+
+```
+[ PostgreSQL ]
+        │
+        ▼
+[ Extraction ]
+extract.py → retry exponentiel + psycopg2
+        │
+        ▼
+[ Data Cleaning ]
+clean_data.py → types, valeurs invalides, heures d'achat
+        │
+        ▼
+[ Feature Engineering ]
+features.py → jour_semaine (FR), Revenue, Cost, Profit, Marge
+        │
+        ▼
+[ Business Analysis ]
+analysis/ → Produit, Région, Jour
+        │
+        ▼
+[ Reporting Layer ]
+rapport_excel.py → Excel automatisé + graphiques
+        │
+        ▼
+[ Decision Support ]
+Rapport exploitable par la direction
+```
+
+---
+
 ## ⚙️ Configuration (`config.py` + `.env`)
 
 Toute la configuration est centralisée dans `config.py`. Les credentials PostgreSQL sont externalisés dans un fichier `.env` non versionné.
@@ -82,7 +129,7 @@ DB_PORT=5432
 DB_NAME=db_ventes_janvier
 DB_USER=votre_user
 DB_PASSWORD=votre_mot_de_passe
-DB_TABLE=ventes_janvier
+DB_TABLE=votre_table
 ```
 
 **`config.py`** :
@@ -102,71 +149,37 @@ DB_CONFIG = {
 
 ---
 
-## 📊 Pipeline ETL — Flux de Données
-
-```
-[ PostgreSQL ]
-        │
-        ▼
-[ Extraction ]
-extract.py (retry + psycopg2)
-        │
-        ▼
-[ Data Cleaning ]
-clean_data.py (format, types, valeurs invalides, heures d'achat)
-        │
-        ▼
-[ Feature Engineering ]
-features.py (jour_semaine FR, Revenue, Cost, Profit, Marge)
-        │
-        ▼
-[ Business Analysis ]
-analysis/ (Produit, Région, Jour)
-        │
-        ▼
-[ Reporting Layer ]
-rapport_excel.py (Excel automatisé + graphiques)
-        │
-        ▼
-[ Decision Support ]
-Rapport exploitable par la direction
-```
-
----
-
 ## 📈 Rapport Excel Automatisé
 
 | Onglet | Contenu | Visualisation |
 |---|---|---|
 | Données Brutes | Données extraites de PostgreSQL | — |
 | Données Nettoyées | Données après nettoyage + features | Mise en forme conditionnelle (Profit, Marge) |
-| Données Par Produit | Agrégations par produit | Graphique combiné colonne (Revenue) + ligne (Profit) sur axe secondaire |
-| Données Par Région | Agrégations par région | Graphique camembert — répartition du Profit par région |
-| Données Par Jour | Performances par jour de la semaine | Graphique combiné colonne (Profit) + ligne (Quantité) sur axe secondaire |
+| Données Par Produit | Agrégations par produit | Graphique combiné colonne + ligne |
+| Données Par Région | Agrégations par région | Graphique camembert (répartition profit) |
+| Données Par Jour | Performances par jour de la semaine | Graphique combiné colonne + ligne (Profit/Quantité) |
 
+---
 
-## 1. Produit — Clavier en perte
+## 📊 Key Insights
 
-Le Clavier est le seul produit déficitaire avec une marge négative de -12% et un profit de -26 752€ — son coût unitaire dépasse son prix de vente, signalant une anomalie tarifaire à corriger en priorité.
+### 🔻 Produit déficitaire
+Le **Clavier** affiche une marge négative de **-12%** avec **-26 752€** de profit — son coût unitaire dépasse son prix de vente, signalant une anomalie tarifaire à corriger en priorité.
 
-## 2. Produit — Laptop leader
+### 🔺 Produit le plus rentable
+Le **Laptop** génère le profit le plus élevé (**131 298€**, marge **34%**) malgré un volume comparable aux autres produits — c'est le produit à forte valeur ajoutée du catalogue.
 
-Le Laptop génère le profit le plus élevé (131 298€, marge 34%) malgré un volume de ventes comparable aux autres produits — c'est le produit à forte valeur ajoutée du catalogue.
+### 📍 Région sous-performante
+**Thiès** affiche la marge la plus faible (**2%**) avec seulement **5 761€** de profit malgré **441 ventes** — un ratio coût/revenue défavorable qui mérite une révision de la stratégie commerciale locale.
 
-## 3. Région — Thiès sous-performante
-
-Thiès affiche la marge la plus faible (2%) avec seulement 5 761€ de profit malgré 441 ventes — un ratio coût/revenue défavorable qui mérite une révision de la stratégie commerciale locale.
-
-## 4. Jour — Dimanche creux commercial
-
-Le Dimanche enregistre la marge la plus basse (1%) avec seulement 2 680€ de profit malgré 375 ventes — volume correct mais rentabilité quasi nulle, suggérant des remises excessives en fin de semaine.
-
+### 📅 Jour peu rentable
+Le **Dimanche** enregistre une rentabilité quasi nulle (**1%**, **2 680€** de profit) malgré **375 ventes** — possible sur-discount ou faible conversion en fin de semaine.
 
 ---
 
 ## 📸 Aperçu du Rapport
 
-![Données Propres](images/Rapport_Excel/Capture%20d’écran%202026-04-22%20223741.png)
+![Données Propres](images/Rapport_Excel/Capture%20d'écran%202026-04-22%20223741.png)
 ![Données Par Produit](images/Rapport_Excel/produit.png)
 ![Données Par Région](images/Rapport_Excel/region.png)
 ![Données Par Jour](images/Rapport_Excel/jour.png)
@@ -179,7 +192,7 @@ Le Dimanche enregistre la marge la plus basse (1%) avec seulement 2 680€ de pr
 
 ---
 
-## ✅ Tests Unitaires
+## 🧪 Tests Unitaires
 
 ```bash
 pytest tests/ -v
@@ -237,11 +250,20 @@ pytest tests/ -v
 
 ---
 
+## ⚠️ Limitations
+
+- Données limitées à janvier 2026 — pas encore multi-mois
+- Pas encore de dashboard interactif
+- Orchestration script-based — pas encore automatisée
+
+---
+
 ## 📅 Prochaines Étapes
 
 - [ ] Dashboard interactif avec **Streamlit** ou **Power BI**
 - [ ] Étendre l'analyse sur l'année complète (12 mois)
 - [ ] Optimisation SQL : index sur `date` et `produit`
+- [ ] Script `db/init_db.py` pour initialisation automatique de la base
 - [ ] Tests d'intégration sur le pipeline complet
 
 ---
@@ -262,7 +284,10 @@ Ce projet est open source et disponible sous la licence **MIT**.
 
 ## 👨‍💻 Auteur
 
-**Mahmoud At-Tidiane** — Passionné par l'ingénierie des données, l'analyse décisionnelle et l'intégration PostgreSQL.
+**Mahmoud At-Tidiane** — Data Analyst | Python | PostgreSQL | BI
 
 - GitHub : [@SopeTaha92](https://github.com/SopeTaha92)
 - Projet : [Structuration-Projet-ventes_janvier](https://github.com/SopeTaha92/Structuration-Projet-ventes_janvier)
+
+
+
