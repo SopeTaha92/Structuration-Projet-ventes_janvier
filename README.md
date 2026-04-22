@@ -144,7 +144,7 @@ Rapport exploitable par la direction
 | Données Par Région | Agrégations par région | Graphique camembert — répartition du Profit par région |
 | Données Par Jour | Performances par jour de la semaine | Graphique combiné colonne (Profit) + ligne (Quantité) sur axe secondaire |
 
-> 💡 **Insight métier** : La visualisation met en évidence la relation entre profit et volume de ventes selon les jours, permettant d'identifier les jours à forte performance commerciale.
+
 >1. Produit — Clavier en perte
 
 Le Clavier est le seul produit déficitaire avec une marge négative de -12% et un profit de -26 752€ — son coût unitaire dépasse son prix de vente, signalant une anomalie tarifaire à corriger en priorité.
