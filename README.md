@@ -166,7 +166,7 @@ Le Dimanche enregistre la marge la plus basse (1%) avec seulement 2 680€ de pr
 
 ## 📸 Aperçu du Rapport
 
-![Données Propres](images/Rapport_Excel/Capture%20d'écran%202026-04-22%20223741.png)
+![Données Propres](images/Rapport_Excel/Capture%20d’écran%202026-04-22%20223741.png)
 ![Données Par Produit](images/Rapport_Excel/produit.png)
 ![Données Par Région](images/Rapport_Excel/region.png)
 ![Données Par Jour](images/Rapport_Excel/jour.png)
