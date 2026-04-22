@@ -70,7 +70,7 @@ def generating_excel_rapport(onglets : Dict[str, pd.DataFrame], file : str = EXC
                         worksheet.set_column(i, i, column_width, marge_format)
                     elif column in column_money:
                         worksheet.set_column(i, i, column_width, money_format)
-                    elif column == "Heure_d'achat":
+                    elif column == "heure_achat":
                         worksheet.set_column(i, i, column_width, time_format)
                     else:
                         worksheet.set_column(i, i, column_width, base_format)
@@ -117,7 +117,15 @@ def generating_excel_rapport(onglets : Dict[str, pd.DataFrame], file : str = EXC
                         {
                             'name' : 'Revenue Par Produit',
                             'categories' : [name, 1, produit_column, len(data), produit_column],
-                            'values' : [name, 1, revenue_column, len(data), revenue_column]
+                            'values' : [name, 1, revenue_column, len(data), revenue_column],
+                            'fill':   {'color': '#B6D7A8'}, # Un vert très clair (presque pastel)
+                            'border': {'color': '#6aa84f', 'width': 1.5}, # Un contour vert plus foncé pour la propreté
+                            'data_labels': {
+                                'value': True, 
+                                'position': 'outside_end', 
+                                'num_format': '#,##0 €',
+                                'font': {'bold': True} # Le gras aide énormément la lisibilité
+                                            }
                         }
                     )
 
@@ -125,41 +133,110 @@ def generating_excel_rapport(onglets : Dict[str, pd.DataFrame], file : str = EXC
                         {
                             'name' : 'Profit Par Produit',
                             'categories' : [name, 1, produit_column, len(data), produit_column],
-                            'values' : [name, 1, profit_column, len(data), profit_column]
-                        }
+                            'values' : [name, 1, profit_column, len(data), profit_column],
+                            'y2_axis' : True,
+                            'line': {'color': 'red', 'width': 2}, # Force la ligne en rouge pour qu'on la voie
+                            'marker': {'type': 'circle', 'size': 5, 'fill': {'color': 'white'}, 'border': {'color': 'red'}}, # Ajoute des points sur la ligne
+                            'data_labels': {'value': True, 'position': 'above', 'font': {'bold': True}, 'num_format' : '#,##0 €'}
+                         }
                     )
+                    # Masquer les chiffres sur l'axe Y principal (Revenue)
+                    chart_col.set_y_axis({'visible': False, 'major_gridlines': {'visible': False}})
+                    chart_line.set_y2_axis({'visible': False, 'major_gridlines': {'visible': False}})
                     chart_col.combine(chart_line)
+                    chart_col.set_legend({'position' : 'none'})
+                    chart_col.set_title({'name' : 'Répartition Revenue/Profit'}) 
                     worksheet.insert_chart(1, data.shape[1] + 1, chart_col)
 
                 if name == 'Données Par Région':
-                    chart_col = workbook.add_chart({'type' : 'column'})
+                    chart_pie = workbook.add_chart({'type' : 'pie'})
                     chart_line = workbook.add_chart({'type' : 'line'})
                     region_column = data.columns.get_loc('region')
                     marge_percent_column = data.columns.get_loc('Marge %')
                     profit_column = data.columns.get_loc('Profit')
             
-                    chart_col.add_series(
+                    chart_pie.add_series(
                         {
                             'name' : 'Revenue Par Produit',
                             'categories' : [name, 1, region_column, len(data), region_column],
-                            'values' : [name, 1, profit_column, len(data), profit_column]
+                            'values' : [name, 1, profit_column, len(data), profit_column],
+                            'data_labels' : {'percentage' : True,'category' : True,'position' : 'outside_end'}
+                        }
+                    )
+
+                    chart_pie.set_legend({'position' : 'none'})
+                    chart_pie.set_title({'name' : 'Répartition du Profit par Région'})
+                    worksheet.insert_chart(1, data.shape[1] + 1, chart_pie)
+
+                if name == 'Données Par Jour':
+                    chart_col = workbook.add_chart({'type' : 'column'})
+                    chart_line = workbook.add_chart({'type' : 'line'})
+                    day_column = data.columns.get_loc('jour_semaine')
+                    profit_column = data.columns.get_loc('Profit')
+                    quantité_column = data.columns.get_loc('quantité')
+
+
+                    chart_col.add_series(
+                        {
+                            'name' : 'Jour de la semaine',
+                            'categories' : [name, 1, day_column, len(data), day_column],
+                            'values' : [name, 1, profit_column, len(data), profit_column],
+                            'fill':   {'color': '#B6D7A8'}, # Un vert très clair (presque pastel)
+                            'border': {'color': '#6aa84f', 'width': 1.5}, # Un contour vert plus foncé pour la propreté
+                            'data_labels': {
+                                'value': True, 
+                                'position': 'outside_end', 
+                                'num_format': '#,##0 €',
+                                'font': {'bold': True} # Le gras aide énormément la lisibilité
+                                            }
                         }
                     )
 
                     chart_line.add_series(
                         {
-                            'name' : 'Profit Par Produit',
-                            'categories' : [name, 1, region_column, len(data), region_column],
-                            'values' : [name, 1, marge_percent_column, len(data), marge_percent_column],
-                            'y2_axis' : True
+                            'name' : 'Quantité vendu par Jour',
+                            'categories' : [name, 1, day_column, len(data), day_column],
+                            'values' : [name, 1, quantité_column, len(data), quantité_column],
+                            'y2_axis' : True,
+                            'line': {'color': 'red', 'width': 2}, # Force la ligne en rouge pour qu'on la voie
+                            'marker': {'type': 'circle', 'size': 8, 'fill': {'color': 'white'}, 'border': {'color': 'red'}}, # Ajoute des points sur la ligne
+                            'data_labels': {'value': True, 'position': 'above', 'font': {'bold': True}} # Affiche la quantité au-dessus du point
                         }
                     )
+        
+
+                    chart_col.set_y_axis({
+                                            'visible': True,
+                                            'major_tick_mark': 'none',
+                                            'minor_tick_mark': 'none',
+                                            'num_font': {'color': '#FFFFFF'},
+                                            'line': {'none': True},
+                                            'major_gridlines': {'visible': False},
+                                            'max': data['Profit'].max() * 1.5  # ← % de marge
+                                        })
+                    chart_line.set_y2_axis({
+                                            'visible': True,
+                                            'major_tick_mark': 'none',
+                                            'minor_tick_mark': 'none',
+                                            'num_font': {'color': '#FFFFFF'},
+                                            'line': {'none': True},
+                                            'major_gridlines': {'visible': False}
+                                        }) # On enlève aussi les lignes de grille pour le style)
                     chart_col.combine(chart_line)
+                    chart_col.set_legend({'position' : 'none'})
+                    chart_col.set_title({'name' : 'Répartition Profit/Quantité par Jour'})
+                    """chart_col.set_plotarea({
+                                                'border': {'none': True}
+                                            })"""
                     worksheet.insert_chart(1, data.shape[1] + 1, chart_col)
+
             
     logger.success(f"Fichier de rapport Excel crée avec succée à : {file}")
 
 
-
+"""
+“La visualisation met en évidence la relation entre profit et volume de ventes selon les jours, permettant d’identifier les jours à forte performance commerciale.”
+que penses tu de mettre ça dans le readme
+"""
 
 

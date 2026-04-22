@@ -145,10 +145,10 @@ Rapport RH exploitable par la direction
 
 ## 📸 Aperçu du Rapport
 
-![Données Propres](images)
-![Données Par Jour](images)
-![Données Par Produit](images)
-![Données Par Région](images)
+![Données Propres](images/Rapport_Excel/Capture%20d’écran%202026-04-22%20223741.png)
+![Données Par Jour](images/Rapport_Excel/jour.png)
+![Données Par Produit](images/Rapport_Excel/produit.png)
+![Données Par Région](images/Rapport_Excel/region.png)
 
 ---
 ## 🏗️ Diagramme d'Architecture
