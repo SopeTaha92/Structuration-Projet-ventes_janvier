@@ -145,21 +145,23 @@ Rapport exploitable par la direction
 | Données Par Jour | Performances par jour de la semaine | Graphique combiné colonne (Profit) + ligne (Quantité) sur axe secondaire |
 
 
->1. Produit — Clavier en perte
+## 1. Produit — Clavier en perte
 
 Le Clavier est le seul produit déficitaire avec une marge négative de -12% et un profit de -26 752€ — son coût unitaire dépasse son prix de vente, signalant une anomalie tarifaire à corriger en priorité.
 
->2. Produit — Laptop leader
+## 2. Produit — Laptop leader
 
 Le Laptop génère le profit le plus élevé (131 298€, marge 34%) malgré un volume de ventes comparable aux autres produits — c'est le produit à forte valeur ajoutée du catalogue.
 
->3. Région — Thiès sous-performante
+## 3. Région — Thiès sous-performante
 
 Thiès affiche la marge la plus faible (2%) avec seulement 5 761€ de profit malgré 441 ventes — un ratio coût/revenue défavorable qui mérite une révision de la stratégie commerciale locale.
 
->4. Jour — Dimanche creux commercial
+## 4. Jour — Dimanche creux commercial
 
 Le Dimanche enregistre la marge la plus basse (1%) avec seulement 2 680€ de profit malgré 375 ventes — volume correct mais rentabilité quasi nulle, suggérant des remises excessives en fin de semaine.
+
+
 ---
 
 ## 📸 Aperçu du Rapport
