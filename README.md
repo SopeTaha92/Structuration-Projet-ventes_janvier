@@ -179,7 +179,7 @@ Le **Dimanche** enregistre une rentabilité quasi nulle (**1%**, **2 680€** de
 
 ## 📸 Aperçu du Rapport
 
-![Données Propres](images/Rapport_Excel/Capture%20d'écran%202026-04-22%20223741.png)
+![Données Propres](images/Rapport_Excel/Capture%20d’écran%202026-04-22%20223741.png)
 ![Données Par Produit](images/Rapport_Excel/produit.png)
 ![Données Par Région](images/Rapport_Excel/region.png)
 ![Données Par Jour](images/Rapport_Excel/jour.png)
