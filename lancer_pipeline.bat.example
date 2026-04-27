@@ -1,0 +1,12 @@
+@echo off
+:: 1. Positionnez-vous dans le dossier du projet
+cd /d "%~dp0"
+
+:: 2. Activez l'environnement virtuel (vérifiez le nom du dossier venv)
+call venv\Scripts\activate
+
+:: 3. Lancez le pipeline
+python main.py
+
+:: 4. Fermer automatiquement après exécution
+exit

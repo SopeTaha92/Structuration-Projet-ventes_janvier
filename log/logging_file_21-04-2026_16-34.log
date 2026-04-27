@@ -1,0 +1,27 @@
+2026-04-21T16:34:51.821594+0000 | INFO | src.logger:21 | Fichier de logs crée avec succée début du traitement du pipeline
+2026-04-21T16:34:51.822112+0000 | INFO | src.extract:20 | Début de l'extraction des données depuis la data base
+2026-04-21T16:34:51.961044+0000 | INFO | src.extract:24 | testing connection !
+2026-04-21T16:34:51.984523+0000 | SUCCESS | src.extract:26 | ✅ Connexion à la base de donnée éffectué avec succée
+2026-04-21T16:34:51.985311+0000 | INFO | src.extract:28 | ✅ Extraction des données depuis la base reussi
+2026-04-21T16:34:51.998648+0000 | INFO | src.clean_data:12 | Début du néttoyage des données brutes reçus
+2026-04-21T16:34:51.999661+0000 | INFO | src.clean_data:14 | Copie des données brutes reçu effectué
+2026-04-21T16:34:52.045553+0000 | INFO | src.features:11 | Début des features pour l'enrichissement du dataframe
+2026-04-21T16:34:52.056999+0000 | INFO | src.features:30 | Fini avec les features
+2026-04-21T16:34:52.057418+0000 | INFO | src.analysis.analysis_produit:12 | Début des aggrégations par produits
+2026-04-21T16:34:52.067878+0000 | INFO | src.analysis.analysis_produit:29 | Aggrégations par produits éffectué avec succées
+2026-04-21T16:34:52.068259+0000 | INFO | src.analysis.analysis_region:13 | Début des aggrégations par régions
+2026-04-21T16:34:52.076110+0000 | INFO | src.analysis.analysis_region:30 | Aggrégations par régions éffectué avec succées
+2026-04-21T16:34:52.076486+0000 | INFO | src.analysis.analysis_jours:11 | Début des aggrégations par jous
+2026-04-21T16:34:52.085315+0000 | INFO | src.analysis.analysis_jours:29 | Aggrégations par jours éffectué avec succées
+2026-04-21T16:34:52.086567+0000 | INFO | src.rapport_excel:16 | Lancement de la fonction de génération du rapport
+2026-04-21T16:34:52.242689+0000 | INFO | src.rapport_excel:18 | Création du contexte manager et création du fichier Excel
+2026-04-21T16:34:52.243342+0000 | INFO | src.rapport_excel:48 | Création de la feuille Données Brutes
+2026-04-21T16:34:52.314196+0000 | INFO | src.rapport_excel:54 | Application de la mise en forme du header pour la feuille Données Brutes
+2026-04-21T16:34:52.314512+0000 | INFO | src.rapport_excel:57 | Application de l'auto filtre sur la feuille Données Brutes
+2026-04-21T16:34:52.314664+0000 | INFO | src.rapport_excel:60 | Fixation du header pour la feuille Données Brutes
+2026-04-21T16:34:52.314797+0000 | INFO | src.rapport_excel:48 | Création de la feuille Données Néttoyées
+2026-04-21T16:34:52.401133+0000 | INFO | src.rapport_excel:54 | Application de la mise en forme du header pour la feuille Données Néttoyées
+2026-04-21T16:34:52.401547+0000 | INFO | src.rapport_excel:57 | Application de l'auto filtre sur la feuille Données Néttoyées
+2026-04-21T16:34:52.401754+0000 | INFO | src.rapport_excel:60 | Fixation du header pour la feuille Données Néttoyées
+2026-04-21T16:34:52.403316+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-21T16:34:52.403567+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
