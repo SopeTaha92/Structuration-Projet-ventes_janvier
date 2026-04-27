@@ -1,0 +1,103 @@
+2026-04-27T11:51:34.515271+0000 | INFO | src.logger:21 | Fichier de logs crée avec succée début du traitement du pipeline
+2026-04-27T11:51:34.515763+0000 | INFO | src.extract:20 | Début de l'extraction des données depuis la data base
+2026-04-27T11:51:34.661699+0000 | INFO | src.extract:24 | testing connection !
+2026-04-27T11:51:34.685375+0000 | SUCCESS | src.extract:26 | ✅ Connexion à la base de donnée éffectué avec succée
+2026-04-27T11:51:34.685877+0000 | INFO | src.extract:28 | ✅ Extraction des données depuis la base reussi
+2026-04-27T11:51:34.699426+0000 | INFO | src.clean_data:12 | Début du néttoyage des données brutes reçus
+2026-04-27T11:51:34.700285+0000 | INFO | src.clean_data:14 | Copie des données brutes reçu effectué
+2026-04-27T11:51:34.728089+0000 | INFO | src.clean_data:32 | Création du fichier csv des données propres avec succée : clean_data_ventes_janvier_27-04-2026_11-51.csv
+2026-04-27T11:51:34.728502+0000 | INFO | src.features:10 | Début des features pour l'enrichissement du dataframe
+2026-04-27T11:51:34.736038+0000 | INFO | src.features:29 | Fini avec les features
+2026-04-27T11:51:35.054124+0000 | SUCCESS | __main__:20 | Données complet pour le Dashbord power BI généré avec succée données_complet_vente_janvier.xlsx
+2026-04-27T11:51:35.054503+0000 | INFO | src.analysis.analysis_produit:12 | Début des aggrégations par produits
+2026-04-27T11:51:35.060394+0000 | INFO | src.analysis.analysis_produit:29 | Aggrégations par produits éffectué avec succées
+2026-04-27T11:51:35.060617+0000 | INFO | src.analysis.analysis_region:13 | Début des aggrégations par régions
+2026-04-27T11:51:35.065003+0000 | INFO | src.analysis.analysis_region:30 | Aggrégations par régions éffectué avec succées
+2026-04-27T11:51:35.065219+0000 | INFO | src.analysis.analysis_jours:11 | Début des aggrégations par jous
+2026-04-27T11:51:35.069446+0000 | INFO | src.analysis.analysis_jours:29 | Aggrégations par jours éffectué avec succées
+2026-04-27T11:51:35.070045+0000 | INFO | src.rapport_excel:16 | Lancement de la fonction de génération du rapport
+2026-04-27T11:51:35.071555+0000 | INFO | src.rapport_excel:18 | Création du contexte manager et création du fichier Excel
+2026-04-27T11:51:35.072118+0000 | INFO | src.rapport_excel:48 | Création de la feuille Données Brutes
+2026-04-27T11:51:35.102171+0000 | INFO | src.rapport_excel:54 | Application de la mise en forme du header pour la feuille Données Brutes
+2026-04-27T11:51:35.102803+0000 | INFO | src.rapport_excel:57 | Application de l'auto filtre sur la feuille Données Brutes
+2026-04-27T11:51:35.102982+0000 | INFO | src.rapport_excel:60 | Fixation du header pour la feuille Données Brutes
+2026-04-27T11:51:35.103131+0000 | INFO | src.rapport_excel:48 | Création de la feuille Données Néttoyées
+2026-04-27T11:51:35.164759+0000 | INFO | src.rapport_excel:54 | Application de la mise en forme du header pour la feuille Données Néttoyées
+2026-04-27T11:51:35.165319+0000 | INFO | src.rapport_excel:57 | Application de l'auto filtre sur la feuille Données Néttoyées
+2026-04-27T11:51:35.165635+0000 | INFO | src.rapport_excel:60 | Fixation du header pour la feuille Données Néttoyées
+2026-04-27T11:51:35.168236+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.168534+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.171370+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.171681+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.172705+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.172911+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.174006+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.174295+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.175366+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.175570+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.176607+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.176811+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.178311+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.178549+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.179582+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.179854+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.181140+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.181386+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.182535+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.182749+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.184512+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.184986+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.187599+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.187925+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Néttoyées
+2026-04-27T11:51:35.188498+0000 | INFO | src.rapport_excel:48 | Création de la feuille Données Par Produit
+2026-04-27T11:51:35.190715+0000 | INFO | src.rapport_excel:54 | Application de la mise en forme du header pour la feuille Données Par Produit
+2026-04-27T11:51:35.191073+0000 | INFO | src.rapport_excel:57 | Application de l'auto filtre sur la feuille Données Par Produit
+2026-04-27T11:51:35.191335+0000 | INFO | src.rapport_excel:60 | Fixation du header pour la feuille Données Par Produit
+2026-04-27T11:51:35.192646+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.192897+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Produit
+2026-04-27T11:51:35.193960+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.194182+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Produit
+2026-04-27T11:51:35.195195+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.195395+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Produit
+2026-04-27T11:51:35.196340+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.196535+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Produit
+2026-04-27T11:51:35.197467+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.197662+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Produit
+2026-04-27T11:51:35.198585+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.198779+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Produit
+2026-04-27T11:51:35.200146+0000 | INFO | src.rapport_excel:48 | Création de la feuille Données Par Région
+2026-04-27T11:51:35.201896+0000 | INFO | src.rapport_excel:54 | Application de la mise en forme du header pour la feuille Données Par Région
+2026-04-27T11:51:35.202153+0000 | INFO | src.rapport_excel:57 | Application de l'auto filtre sur la feuille Données Par Région
+2026-04-27T11:51:35.202341+0000 | INFO | src.rapport_excel:60 | Fixation du header pour la feuille Données Par Région
+2026-04-27T11:51:35.203350+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.203911+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Région
+2026-04-27T11:51:35.205065+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.205272+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Région
+2026-04-27T11:51:35.206219+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.206417+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Région
+2026-04-27T11:51:35.207325+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.207520+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Région
+2026-04-27T11:51:35.208421+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.208615+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Région
+2026-04-27T11:51:35.209509+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.209703+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Région
+2026-04-27T11:51:35.210473+0000 | INFO | src.rapport_excel:48 | Création de la feuille Données Par Jour
+2026-04-27T11:51:35.212482+0000 | INFO | src.rapport_excel:54 | Application de la mise en forme du header pour la feuille Données Par Jour
+2026-04-27T11:51:35.212715+0000 | INFO | src.rapport_excel:57 | Application de l'auto filtre sur la feuille Données Par Jour
+2026-04-27T11:51:35.212897+0000 | INFO | src.rapport_excel:60 | Fixation du header pour la feuille Données Par Jour
+2026-04-27T11:51:35.213804+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.213998+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Jour
+2026-04-27T11:51:35.214884+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.215077+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Jour
+2026-04-27T11:51:35.215955+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.216148+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Jour
+2026-04-27T11:51:35.217019+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.217212+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Jour
+2026-04-27T11:51:35.218081+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.218291+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Jour
+2026-04-27T11:51:35.219164+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.221121+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Jour
+2026-04-27T11:51:35.223839+0000 | INFO | src.rapport_excel:67 | Calcule de la largeur des cellules automatquement
+2026-04-27T11:51:35.224281+0000 | INFO | src.rapport_excel:68 | Application des divers formatages pour la feuille Données Par Jour
+2026-04-27T11:51:35.491478+0000 | SUCCESS | src.rapport_excel:234 | Fichier de rapport Excel crée avec succée à : rapport_excel\rapport_excel_ventes_janvier_27-04-2026_11-51.xlsx
+2026-04-27T11:51:35.491928+0000 | SUCCESS | __main__:34 | Pipeline exécuté entièrement avec succès.

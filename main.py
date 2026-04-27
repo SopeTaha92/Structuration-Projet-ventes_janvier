@@ -33,4 +33,5 @@ try:
     generating_excel_rapport(onglets)
     logger.success("Pipeline exécuté entièrement avec succès.")
 except Exception as e:
-    logger.error(f"Echec du Pipeline : {e}")
+    logger.exception(f"Echec du Pipeline : {e}")
+    raise
