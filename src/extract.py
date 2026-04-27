@@ -22,7 +22,7 @@ def extracting_data(max_retries : int = MAX_RETRIES, delay : int = DELAY, file :
         try:
             conn = psycopg2.connect(**DB_CONFIG)
             logger.info('testing connection !')
-            df_brute = pd.read_sql(f"SELECT * FROM {TABLE_NAME};", conn)
+            df_brute = pd.read_sql(f"SELECT * FROM {TABLE_NAME} where date < '2026-01-31';", conn)
             logger.success("✅ Connexion à la base de donnée éffectué avec succée")
             conn.close()
             logger.info("✅ Extraction des données depuis la base reussi")

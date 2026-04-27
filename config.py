@@ -79,4 +79,4 @@ EXCEL_FORMATTING = {
 
 DIR_POWER_BI_DATA = Path('power_BI/data')
 DIR_POWER_BI_DATA.mkdir(parents=True, exist_ok=True)
-FILE_POWER_BI_DATA = DIR_POWER_BI_DATA / f"données_complet_vente_janvier_{TODAY}.xlsx"
+FILE_POWER_BI_DATA = DIR_POWER_BI_DATA / f"données_complet_vente_janvier.xlsx"
