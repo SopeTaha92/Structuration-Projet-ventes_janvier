@@ -1,8 +1,0 @@
-2026-04-21T06:33:33.630555+0000 | INFO | src.logger:21 | Fichier de logs crée avec succée début du traitement du pipeline
-2026-04-21T06:33:33.631090+0000 | INFO | src.extract:20 | Début de l'extraction des données depuis la data base
-2026-04-21T06:33:33.631628+0000 | ERROR | src.extract:33 | Echec de la tentative d'extraction 1 / 3
-2026-04-21T06:33:33.631928+0000 | INFO | src.extract:34 | Nouvelle tentative dans 1 secondes
-2026-04-21T06:33:34.632882+0000 | ERROR | src.extract:33 | Echec de la tentative d'extraction 2 / 3
-2026-04-21T06:33:34.633159+0000 | INFO | src.extract:34 | Nouvelle tentative dans 2 secondes
-2026-04-21T06:33:36.635304+0000 | CRITICAL | src.extract:38 | Echec total après 3 tentatives : invalid dsn: invalid connection option "name"
-

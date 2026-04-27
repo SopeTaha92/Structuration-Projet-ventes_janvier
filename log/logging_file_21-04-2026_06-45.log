@@ -1,9 +1,0 @@
-2026-04-21T06:45:47.938994+0000 | INFO | src.logger:21 | Fichier de logs crée avec succée début du traitement du pipeline
-2026-04-21T06:45:47.939337+0000 | INFO | src.extract:20 | Début de l'extraction des données depuis la data base
-2026-04-21T06:45:48.026024+0000 | INFO | src.extract:24 | testing connection !
-2026-04-21T06:45:48.041396+0000 | SUCCESS | src.extract:26 | ✅ Connexion à la base de donnée éffectué avec succée
-2026-04-21T06:45:48.041828+0000 | INFO | src.extract:28 | ✅ Extraction des données depuis la base reussi
-2026-04-21T06:45:48.079805+0000 | INFO | src.clean_data:12 | Début du néttoyage des données brutes reçus
-2026-04-21T06:45:48.082076+0000 | INFO | src.clean_data:14 | Copie des données brutes reçu effectué
-2026-04-21T06:45:48.126075+0000 | INFO | src.clean_data:34 | Création du fichier csv des données propres avec succée : clean_data_ventes_janvier_21-04-2026_06-45.csv
-2026-04-21T06:45:48.126469+0000 | INFO | src.features:11 | Début des features pour l'enrichissement du dataframe
