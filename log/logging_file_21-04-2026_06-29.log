@@ -1,7 +1,0 @@
-2026-04-21T06:29:31.074379+0000 | INFO | src.logger:21 | Fichier de logs crée avec succée début du traitement du pipeline
-2026-04-21T06:29:31.074816+0000 | INFO | src.extract:20 | Début de l'extraction des données depuis la data base
-2026-04-21T06:29:31.075174+0000 | ERROR | src.extract:31 | Echec de la tentative d'extraction 1 / 3
-2026-04-21T06:29:31.075341+0000 | INFO | src.extract:32 | Nouvelle tentative dans 1 secondes
-2026-04-21T06:29:32.076273+0000 | ERROR | src.extract:31 | Echec de la tentative d'extraction 2 / 3
-2026-04-21T06:29:32.076596+0000 | INFO | src.extract:32 | Nouvelle tentative dans 2 secondes
-2026-04-21T06:29:34.078756+0000 | CRITICAL | src.extract:36 | Echec total après 3 tentatives
