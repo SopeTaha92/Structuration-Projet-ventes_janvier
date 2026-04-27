@@ -11,8 +11,8 @@ __pycache__/
 lancer_pipeline.bat
 
 # Données et Rapports
-rapport_excel/
-logs/*.csv
-data/
+rapport_excel/*.xlsx
+logs/*.log 
+data/*.csv 
 tests/*.csv
 power_bi/data/

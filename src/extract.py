@@ -10,7 +10,7 @@ import time
 import pandas as pd
 import psycopg2
 from loguru import logger
-from config import DB_CONFIG, TABLE_NAME, MAX_RETRIES, DELAY, BRUTE_DATA_FILE
+from config import DB_CONFIG, TABLE_NAME, DATE_DEBUT, DATE_FIN, MAX_RETRIES, DELAY, BRUTE_DATA_FILE
 
 
 def extracting_data(max_retries : int = MAX_RETRIES, delay : int = DELAY, file : str = BRUTE_DATA_FILE) -> pd.DataFrame:
@@ -22,7 +22,7 @@ def extracting_data(max_retries : int = MAX_RETRIES, delay : int = DELAY, file :
         try:
             conn = psycopg2.connect(**DB_CONFIG)
             logger.info('testing connection !')
-            df_brute = pd.read_sql(f"SELECT * FROM {TABLE_NAME} where date < '2026-01-31';", conn)
+            df_brute = pd.read_sql(f"SELECT * FROM {TABLE_NAME} WHERE date BETWEEN '{DATE_DEBUT}' and '{DATE_FIN}';", conn)
             logger.success("✅ Connexion à la base de donnée éffectué avec succée")
             conn.close()
             logger.info("✅ Extraction des données depuis la base reussi")

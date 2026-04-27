@@ -29,6 +29,9 @@ DB_CONFIG = {
 }
 
 TABLE_NAME = env['DB_TABLE']
+DATE_DEBUT = '2026-01-01'
+DATE_FIN = '2026-01-31'
+
 
 
 BRUTE_DATA = Path("data/raw")
@@ -77,6 +80,6 @@ EXCEL_FORMATTING = {
 }
 
 
-DIR_POWER_BI_DATA = Path('power_BI/data')
+DIR_POWER_BI_DATA = Path('power_bi/data')
 DIR_POWER_BI_DATA.mkdir(parents=True, exist_ok=True)
 FILE_POWER_BI_DATA = DIR_POWER_BI_DATA / f"données_complet_vente_janvier.xlsx"

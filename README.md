@@ -36,16 +36,17 @@ Pipeline **ETL (Extract, Transform, Load)** robuste et modulaire transformant de
 | Fonctionnalité | Description |
 |---|---|
 | **Connectivité PostgreSQL** | Extraction robuste avec `psycopg2` et retry exponentiel (3 tentatives, délai x2) |
+| **Filtrage temporel** | Extraction filtrée par période via `BETWEEN` — configurable dans `config.py` |
 | **Sécurité** | Credentials PostgreSQL externalisés via `python-dotenv` — aucun secret dans le code |
 | **Architecture Modulaire** | Séparation stricte : extraction → nettoyage → features → analyses → reporting |
 | **Nettoyage Robuste** | `pd.to_numeric(errors='coerce')` sur toutes les conversions — zéro plantage sur valeurs invalides |
 | **Gestion Temporelle** | Conversion des secondes en heures d'achat lisibles via `pd.to_timedelta` |
 | **Feature Engineering** | Jour de la semaine (FR), Revenue, Cost, Profit, Marge calculés automatiquement |
-| **3 Axes d'Analyse Métier** | Par produit, par région, par jour de la semaine |
 | **Reporting Excel Avancé** | 5 onglets, graphiques combinés, mise en forme conditionnelle pilotée par `config.py` |
 | **Dashboard Power BI** | 2 pages — Dashboard KPIs + Business Insights narratifs et actionnables |
+| **Automatisation locale** | Exécution automatique quotidienne via `.bat` + Planificateur de tâches Windows |
 | **Logging Professionnel** | Loguru avec rotation 10 MB, rétention 30 jours, compression ZIP, horodatage |
-| **Configuration Centralisée** | Chemins, couleurs, seuils, paramètres DB tous gérés dans `config.py` |
+| **Configuration Centralisée** | Chemins, couleurs, seuils, dates, paramètres DB tous gérés dans `config.py` |
 | **Tests Unitaires** | Couverture pytest sur `clean_data.py` et `features.py` |
 
 ---
@@ -56,9 +57,10 @@ Pipeline **ETL (Extract, Transform, Load)** robuste et modulaire transformant de
 Structuration-Projet-ventes_janvier/
 ├── images/
 │   ├── Rapport_Excel/              # 📸 Captures d'écran du rapport Excel
+│   ├── Dashbord_Power_BI/          # 📸 Captures d'écran du dashboard
 │   └── Diagramme_Architecture/     # 🏗️ Diagramme d'architecture
 ├── power_bi/
-│   ├── data/                       # 📊 Données Excel alimentant le dashboard
+│   ├── data/                       # 📊 Données Excel alimentant le dashboard (ignorées par Git)
 │   └── dashboard/                  # 📈 Fichier Power BI (.pbix)
 │       └── dashboard_ventes_janvier.pbix
 ├── reports/
@@ -86,6 +88,8 @@ Structuration-Projet-ventes_janvier/
 ├── rapport_excel/                  # 📂 Rapports Excel générés (ignorés par Git)
 ├── .env                            # 🔐 Credentials PostgreSQL (ignoré par Git)
 ├── .env.example                    # 📋 Template de configuration
+├── lancer_pipeline.bat             # ⚙️ Script d'automatisation local (ignoré par Git)
+├── lancer_pipeline.bat.example     # 📋 Template du script d'automatisation
 ├── config.py                       # ⚙️ Configuration centralisée
 ├── main.py                         # 🚀 Point d'entrée du pipeline
 ├── requirements.txt                # 📦 Dépendances
@@ -101,7 +105,7 @@ Structuration-Projet-ventes_janvier/
         │
         ▼
 [ Extraction ]
-extract.py → retry exponentiel + psycopg2
+extract.py → retry exponentiel + psycopg2 + filtre BETWEEN dates
         │
         ▼
 [ Data Cleaning ]
@@ -123,6 +127,10 @@ rapport_excel.py → Excel automatisé + graphiques
         ▼
 [ Decision Support ]
 Rapport Excel + Dashboard Power BI exploitables par la direction
+        │
+        ▼
+[ Automatisation ]
+Planificateur Windows → exécution quotidienne à 9H
 ```
 
 ---
@@ -154,6 +162,10 @@ DB_CONFIG = {
     'user': env['DB_USER'],
     'password': env['DB_PASSWORD']
 }
+
+# Période d'analyse — modifiable sans toucher au code
+DATE_DEBUT = '2026-01-01'
+DATE_FIN = '2026-01-31'
 ```
 
 ---
@@ -186,6 +198,25 @@ Le dashboard Power BI se compose de **2 pages** alimentées automatiquement par 
 
 ---
 
+## 🤖 Automatisation Locale
+
+Le pipeline s'exécute automatiquement via le **Planificateur de tâches Windows** :
+
+- ⏰ Exécution quotidienne à **9H00**
+- 🔄 Exécution au démarrage si un lancement planifié a été manqué
+- 🔁 **3 tentatives** automatiques en cas d'échec (intervalle de 5 minutes)
+
+```batch
+# lancer_pipeline.bat.example
+@echo off
+cd /d "%~dp0"
+call venv\Scripts\activate
+python main.py
+exit
+```
+
+---
+
 ## 📊 Key Insights
 
 ### 🔻 Produit déficitaire
@@ -215,8 +246,8 @@ Le **Dimanche** enregistre une rentabilité quasi nulle (**1%**, **2 680€** de
 
 ## 📸 Aperçu du Dashboard Power BI
 
-![Dashbord Power BI](images/Dashbord_Power_BI/dashbord.png)
-![Insights](images/Dashbord_Power_BI/insighs.png)
+![Dashboard Power BI](images/Dashbord_Power_BI/dashbord.png)
+![Business Insights](images/Dashbord_Power_BI/insighs.png)
 
 ---
 
@@ -275,14 +306,17 @@ pip install -r requirements.txt
 cp .env.example .env
 # Éditer .env avec vos paramètres de connexion
 
-# 5. Lancer le pipeline
+# 5. Configurer le script d'automatisation
+cp lancer_pipeline.bat.example lancer_pipeline.bat
+
+# 6. Lancer le pipeline manuellement
 python main.py
 
-# 6. Ouvrir le dashboard Power BI
+# 7. Ouvrir le dashboard Power BI
 # Ouvrir power_bi/dashboard/dashboard_ventes_janvier.pbix
 # Cliquer sur "Actualiser" pour charger les dernières données
 
-# 7. Lancer les tests
+# 8. Lancer les tests
 pytest tests/ -v
 ```
 
@@ -292,14 +326,14 @@ pytest tests/ -v
 
 - Données limitées à janvier 2026 — pas encore multi-mois
 - Dashboard Power BI à actualiser manuellement après chaque exécution du pipeline
-- Orchestration script-based — pas encore automatisée
+- Automatisation locale uniquement — pas encore déployée sur serveur
 
 ---
 
 ## 📅 Prochaines Étapes
 
 - [ ] Étendre l'analyse sur l'année complète (12 mois)
-- [ ] Automatisation complète avec **Airflow**
+- [ ] Déploiement serveur avec **Airflow**
 - [ ] Optimisation SQL : index sur `date` et `produit`
 - [ ] Script `db/init_db.py` pour initialisation automatique de la base
 - [ ] Tests d'intégration sur le pipeline complet
