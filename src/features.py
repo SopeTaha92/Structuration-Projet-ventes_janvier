@@ -3,7 +3,6 @@
 import pandas as pd
 from loguru import logger
 
-
 def add_feature(df_clean : pd.DataFrame) -> pd.DataFrame:
     """
     Cette fonction se charge des noubelles colonnes et d'ajouté de la valeurs

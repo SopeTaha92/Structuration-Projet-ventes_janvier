@@ -2,13 +2,14 @@
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql&logoColor=white)
 ![Pandas](https://img.shields.io/badge/pandas-%23150458.svg?style=for-the-badge&logo=pandas&logoColor=white)
 ![XlsxWriter](https://img.shields.io/badge/XlsxWriter-217346?style=for-the-badge&logo=microsoft-excel&logoColor=white)
+![Power BI](https://img.shields.io/badge/Power%20BI-F2C811?style=for-the-badge&logo=powerbi&logoColor=black)
 ![Loguru](https://img.shields.io/badge/Loguru-000000?style=for-the-badge&logo=python&logoColor=white)
 ![psycopg2](https://img.shields.io/badge/psycopg2-336791?style=for-the-badge&logo=postgresql&logoColor=white)
 ![python-dotenv](https://img.shields.io/badge/python--dotenv-ECD53F?style=for-the-badge&logo=dotenv&logoColor=black)
 ![pytest](https://img.shields.io/badge/pytest-0A9EDC?style=for-the-badge&logo=pytest&logoColor=white)
 
 # 📊 End-to-End Sales Analytics Pipeline
-### PostgreSQL → Python → Excel Dashboard
+### PostgreSQL → Python → Excel → Power BI Dashboard
 
 ---
 
@@ -26,7 +27,7 @@ Ce projet vise à analyser les performances commerciales mensuelles afin de :
 
 ## 🚀 Overview
 
-Pipeline **ETL (Extract, Transform, Load)** robuste et modulaire transformant des données brutes stockées dans **PostgreSQL** en rapports Excel automatisés et décisionnels — avec graphiques combinés, mise en forme conditionnelle et insights métier actionnables.
+Pipeline **ETL (Extract, Transform, Load)** robuste et modulaire transformant des données brutes stockées dans **PostgreSQL** en rapports Excel automatisés et en dashboard Power BI décisionnel — avec graphiques combinés, mise en forme conditionnelle et insights métier actionnables.
 
 ---
 
@@ -41,7 +42,8 @@ Pipeline **ETL (Extract, Transform, Load)** robuste et modulaire transformant de
 | **Gestion Temporelle** | Conversion des secondes en heures d'achat lisibles via `pd.to_timedelta` |
 | **Feature Engineering** | Jour de la semaine (FR), Revenue, Cost, Profit, Marge calculés automatiquement |
 | **3 Axes d'Analyse Métier** | Par produit, par région, par jour de la semaine |
-| **Reporting Excel Avancé** | 5 onglets, graphiques combinés (colonne + ligne sur axe secondaire), mise en forme conditionnelle pilotée par `config.py` |
+| **Reporting Excel Avancé** | 5 onglets, graphiques combinés, mise en forme conditionnelle pilotée par `config.py` |
+| **Dashboard Power BI** | 2 pages — Dashboard KPIs + Business Insights narratifs et actionnables |
 | **Logging Professionnel** | Loguru avec rotation 10 MB, rétention 30 jours, compression ZIP, horodatage |
 | **Configuration Centralisée** | Chemins, couleurs, seuils, paramètres DB tous gérés dans `config.py` |
 | **Tests Unitaires** | Couverture pytest sur `clean_data.py` et `features.py` |
@@ -53,8 +55,14 @@ Pipeline **ETL (Extract, Transform, Load)** robuste et modulaire transformant de
 ```
 Structuration-Projet-ventes_janvier/
 ├── images/
-│   ├── Rapport_Excel/              # 📸 Captures d'écran du rapport généré
+│   ├── Rapport_Excel/              # 📸 Captures d'écran du rapport Excel
 │   └── Diagramme_Architecture/     # 🏗️ Diagramme d'architecture
+├── power_bi/
+│   ├── data/                       # 📊 Données Excel alimentant le dashboard
+│   └── dashboard/                  # 📈 Fichier Power BI (.pbix)
+│       └── dashboard_ventes_janvier.pbix
+├── reports/
+│   └── rapport_analyse_janvier_2026.md  # 📄 Rapport d'analyse complet
 ├── src/
 │   ├── analysis/
 │   │   ├── __init__.py
@@ -75,7 +83,7 @@ Structuration-Projet-ventes_janvier/
 │   ├── raw/                        # 💾 Données sources (ignorées par Git)
 │   └── processed/                  # 🔄 Données nettoyées (ignorées par Git)
 ├── log/                            # 📜 Logs horodatés (ignorés par Git)
-├── rapport_excel/                  # 📂 Rapports générés (ignorés par Git)
+├── rapport_excel/                  # 📂 Rapports Excel générés (ignorés par Git)
 ├── .env                            # 🔐 Credentials PostgreSQL (ignoré par Git)
 ├── .env.example                    # 📋 Template de configuration
 ├── config.py                       # ⚙️ Configuration centralisée
@@ -103,9 +111,10 @@ clean_data.py → types, valeurs invalides, heures d'achat
 [ Feature Engineering ]
 features.py → jour_semaine (FR), Revenue, Cost, Profit, Marge
         │
-        ▼
-[ Business Analysis ]
-analysis/ → Produit, Région, Jour
+        ├──────────────────────────────────┐
+        ▼                                  ▼
+[ Business Analysis ]            [ Power BI Data Export ]
+analysis/ → Produit, Région, Jour   power_bi/data/
         │
         ▼
 [ Reporting Layer ]
@@ -113,7 +122,7 @@ rapport_excel.py → Excel automatisé + graphiques
         │
         ▼
 [ Decision Support ]
-Rapport exploitable par la direction
+Rapport Excel + Dashboard Power BI exploitables par la direction
 ```
 
 ---
@@ -161,6 +170,22 @@ DB_CONFIG = {
 
 ---
 
+## 📊 Dashboard Power BI
+
+Le dashboard Power BI se compose de **2 pages** alimentées automatiquement par le pipeline :
+
+**Page 1 — Dashboard KPIs**
+- 4 KPIs globaux : Profit Total, Quantité, Revenue, Marge
+- Répartition des profits par produit (graphique en cascade)
+- Répartition du revenue par région (camembert)
+- Évolution des ventes dans le temps
+
+**Page 2 — Business Insights**
+- 4 insights narratifs structurés avec recommandations actionnables
+- Format : Contexte → Insight → Action recommandée
+
+---
+
 ## 📊 Key Insights
 
 ### 🔻 Produit déficitaire
@@ -175,14 +200,23 @@ Le **Laptop** génère le profit le plus élevé (**131 298€**, marge **34%**)
 ### 📅 Jour peu rentable
 Le **Dimanche** enregistre une rentabilité quasi nulle (**1%**, **2 680€** de profit) malgré **375 ventes** — possible sur-discount ou faible conversion en fin de semaine.
 
+> 📄 Rapport d'analyse complet disponible dans [`reports/rapport_analyse_janvier_2026.md`](reports/rapport_analyse_janvier_2026.md)
+
 ---
 
-## 📸 Aperçu du Rapport
+## 📸 Aperçu du Rapport Excel
 
-![Données Propres](images/Rapport_Excel/Capture%20d’écran%202026-04-22%20223741.png)
+![Données Propres](images/Rapport_Excel/Capture%20d'écran%202026-04-22%20223741.png)
 ![Données Par Produit](images/Rapport_Excel/produit.png)
 ![Données Par Région](images/Rapport_Excel/region.png)
 ![Données Par Jour](images/Rapport_Excel/jour.png)
+
+---
+
+## 📸 Aperçu du Dashboard Power BI
+
+![Dashbord Power BI](images/Dashbord_Power_BI/dashbord.png)
+![Insights](images/Dashbord_Power_BI/insighs.png)
 
 ---
 
@@ -244,7 +278,11 @@ cp .env.example .env
 # 5. Lancer le pipeline
 python main.py
 
-# 6. Lancer les tests
+# 6. Ouvrir le dashboard Power BI
+# Ouvrir power_bi/dashboard/dashboard_ventes_janvier.pbix
+# Cliquer sur "Actualiser" pour charger les dernières données
+
+# 7. Lancer les tests
 pytest tests/ -v
 ```
 
@@ -253,15 +291,15 @@ pytest tests/ -v
 ## ⚠️ Limitations
 
 - Données limitées à janvier 2026 — pas encore multi-mois
-- Pas encore de dashboard interactif
+- Dashboard Power BI à actualiser manuellement après chaque exécution du pipeline
 - Orchestration script-based — pas encore automatisée
 
 ---
 
 ## 📅 Prochaines Étapes
 
-- [ ] Dashboard interactif avec **Streamlit** ou **Power BI**
 - [ ] Étendre l'analyse sur l'année complète (12 mois)
+- [ ] Automatisation complète avec **Airflow**
 - [ ] Optimisation SQL : index sur `date` et `produit`
 - [ ] Script `db/init_db.py` pour initialisation automatique de la base
 - [ ] Tests d'intégration sur le pipeline complet
@@ -284,10 +322,7 @@ Ce projet est open source et disponible sous la licence **MIT**.
 
 ## 👨‍💻 Auteur
 
-**Mahmoud At-Tidiane** — Data Analyst | Python | PostgreSQL | BI
+**Mahmoud At-Tidiane** — Data Analyst | Python | PostgreSQL | Power BI
 
 - GitHub : [@SopeTaha92](https://github.com/SopeTaha92)
 - Projet : [Structuration-Projet-ventes_janvier](https://github.com/SopeTaha92/Structuration-Projet-ventes_janvier)
-
-
-

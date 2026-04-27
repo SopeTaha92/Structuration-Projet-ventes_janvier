@@ -75,3 +75,8 @@ EXCEL_FORMATTING = {
         'green_value' : 0.25
     },
 }
+
+
+DIR_POWER_BI_DATA = Path('power_BI/data')
+DIR_POWER_BI_DATA.mkdir(parents=True, exist_ok=True)
+FILE_POWER_BI_DATA = DIR_POWER_BI_DATA / f"données_complet_vente_janvier_{TODAY}.xlsx"

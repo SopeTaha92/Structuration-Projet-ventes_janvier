@@ -8,3 +8,4 @@ __pycache__/                # Dossiers de cache
 rapport_excel/*.xlsx        # Les rapports Excel générés
 logs/*.log                  # Les fichiers de logs locaux
 tests/*.csv                 # Les fichiers des testes unitaires
+power_bi/data/*.xlsx        # Power BI data
