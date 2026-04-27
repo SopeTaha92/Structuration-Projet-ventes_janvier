@@ -253,7 +253,7 @@ Le **Dimanche** enregistre une rentabilité quasi nulle (**1%**, **2 680€** de
 
 ## 🏗️ Diagramme d'Architecture
 
-![Architecture](images/Diagramme_Architecture/ChatGPT%20Image%2021%20avr.%202026,%2018_15_29.png)
+![Architecture](images/Diagramme_Architecture/diagramme_architecture.png)
 
 ---
 
