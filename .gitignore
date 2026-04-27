@@ -12,7 +12,7 @@ lancer_pipeline.bat
 
 # Données et Rapports
 rapport_excel/
-logs/
+logs/*.csv
 data/
 tests/*.csv
 power_bi/data/
