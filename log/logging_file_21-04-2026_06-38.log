@@ -1,0 +1,6 @@
+2026-04-21T06:38:26.650710+0000 | INFO | src.logger:21 | Fichier de logs crée avec succée début du traitement du pipeline
+2026-04-21T06:38:26.651077+0000 | INFO | src.extract:20 | Début de l'extraction des données depuis la data base
+2026-04-21T06:38:26.734729+0000 | INFO | src.extract:24 | testing connection !
+2026-04-21T06:38:26.752600+0000 | SUCCESS | src.extract:26 | ✅ Connexion à la base de donnée éffectué avec succée
+2026-04-21T06:38:26.753028+0000 | INFO | src.extract:28 | ✅ Extraction des données depuis la base reussi
+2026-04-21T06:38:26.775929+0000 | INFO | src.clean_data:12 | Début du néttoyage des données brutes reçus
